@@ -1,7 +1,7 @@
 FROM postgres:16
 
 RUN apt update && \
-    apt -y install postgresql-server-dev-16 git curl build-essential pkg-config
+    apt -y install postgresql-server-dev-16 git htop curl build-essential pkg-config
 
 USER postgres
 
@@ -16,6 +16,7 @@ WORKDIR /var/lib/postgresql
 RUN git clone https://github.com/tcdi/plrust.git && \
     cd plrust && \
     cd plrust && \
-    cargo pgrx package
+    cargo pgrx package && \
+    cargo pgrx install
 
 CMD ["postgres"]
