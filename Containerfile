@@ -17,3 +17,5 @@ RUN git clone https://github.com/tcdi/plrust.git && \
     cd plrust && \
     cd plrust && \
     cargo pgrx package
+
+CMD ["postgres"]
