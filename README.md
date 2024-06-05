@@ -6,3 +6,11 @@
 ## build
 
 podman build -t postgres-plrust .
+
+### execute
+
+podman run --name postgres-plrust-container -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=testdb -d postgres-plrust
+
+### access
+
+podman exec -it postgres-plrust-container bash
