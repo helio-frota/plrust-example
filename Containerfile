@@ -1,7 +1,11 @@
 FROM postgres:16
 
 RUN apt update && \
-    apt -y install postgresql-server-dev-16 git htop curl build-essential pkg-config
+    apt -y install postgresql-server-dev-16 git curl build-essential pkg-config && \
+    chown -R postgres:postgres /usr/share/postgresql/16/extension/  && \
+    chown -R postgres:postgres /usr/lib/postgresql/16/lib/ && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 USER postgres
 
