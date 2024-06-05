@@ -5,7 +5,7 @@ RUN apt update && \
 
 USER postgres
 
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+RUN curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain=1.72.0  -y
 
 ENV PATH="/var/lib/postgresql/.cargo/bin:${PATH}"
 
@@ -14,5 +14,6 @@ RUN cargo pgrx init --pg16 /usr/bin/pg_config
 
 WORKDIR /var/lib/postgresql
 RUN git clone https://github.com/tcdi/plrust.git && \
+    cd plrust && \
     cd plrust && \
     cargo pgrx package
