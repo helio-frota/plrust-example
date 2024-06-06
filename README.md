@@ -60,7 +60,9 @@ testdb=# \dx
 (2 rows)
 ```
 
-Trying https://plrust.io/use-plrust.html#basic-plrust-example
+### Basic example
+
+from <https://plrust.io/use-plrust.html#basic-plrust-example>
 
 ```console
 testdb=# CREATE FUNCTION plrust.one()
