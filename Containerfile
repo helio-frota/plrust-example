@@ -10,7 +10,7 @@ RUN apt update && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
 
-# this is working to update postgresql.conf
+# updates postgresql.conf
 COPY init.sh /docker-entrypoint-initdb.d/
 RUN chmod +x /docker-entrypoint-initdb.d/init.sh
 
@@ -19,7 +19,7 @@ USER postgres
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain=1.72.0  -y
 
-# i have no idea about this just following the docs
+# i have no idea... just following the docs
 ENV PATH="/var/lib/postgresql/.cargo/bin:${PATH}"
 
 # we need to use 0.11.0 atm to avoid build error with current version
@@ -29,8 +29,10 @@ RUN cargo pgrx init --pg16 /usr/bin/pg_config
 WORKDIR /var/lib/postgresql
 
 RUN git clone https://github.com/tcdi/plrust.git && \
-    cd plrust/plrust && \
-    cargo pgrx package && \
+    cd plrust/plrustc && \
+    ./build.sh && \
+    cp ~/plrust/build/bin/plrustc /var/lib/postgresql/.cargo/bin && \
+    cd ../plrust && \
     cargo pgrx install --release -c /usr/bin/pg_config
 
 CMD ["postgres"]
