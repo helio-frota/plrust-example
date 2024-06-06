@@ -1,11 +1,14 @@
 FROM postgres:16
 
 RUN apt update && \
-    apt -y install postgresql-server-dev-16 git curl build-essential pkg-config && \
+    apt -y install postgresql-server-dev-16 curl git build-essential pkg-config && \
     chown -R postgres:postgres /usr/share/postgresql/16/extension/  && \
     chown -R postgres:postgres /usr/lib/postgresql/16/lib/ && \
-    apt-get clean && \
+    apt clean && \
     rm -rf /var/lib/apt/lists/*
+
+COPY init.sh /docker-entrypoint-initdb.d/
+RUN chmod +x /docker-entrypoint-initdb.d/init.sh
 
 USER postgres
 
@@ -17,10 +20,10 @@ RUN cargo install cargo-pgrx --version 0.11.0 --locked
 RUN cargo pgrx init --pg16 /usr/bin/pg_config
 
 WORKDIR /var/lib/postgresql
+
 RUN git clone https://github.com/tcdi/plrust.git && \
     cd plrust && \
     cd plrust && \
-    cargo pgrx package && \
     cargo pgrx install
 
 CMD ["postgres"]
