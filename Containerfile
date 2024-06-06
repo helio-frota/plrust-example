@@ -30,6 +30,7 @@ WORKDIR /var/lib/postgresql
 
 RUN git clone https://github.com/tcdi/plrust.git && \
     cd plrust/plrust && \
+    cargo pgrx package && \
     cargo pgrx install --release -c /usr/bin/pg_config
 
 CMD ["postgres"]

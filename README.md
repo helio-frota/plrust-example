@@ -16,17 +16,17 @@ localhost/postgres-plrust   latest      a96730ad4e5e  9 seconds ago  6.02 GB
 ### Build
 
 ```shell
-podman build -t postgres-plrust .
+podman build -t pg-plrust .
 ```
 
 ### Run
 
 ```shell
-podman run --name postgres-plrust-container -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=testdb -d postgres-plrust
+podman run --name pg-plrust-c -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=testdb -d pg-plrust
 ```
 
 ```shell
-podman exec -it postgres-plrust-container bash
+podman exec -it pg-plrust-c bash
 ```
 
 ```shell
