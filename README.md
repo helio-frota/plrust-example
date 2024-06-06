@@ -68,8 +68,12 @@ testdb=# \dx
 
 from <https://plrust.io/use-plrust.html#basic-plrust-example>
 
+```shell
+postgres@6720afb28218:~$ psql -U postgres -d testdb
+```
+
 ```console
-testdb=# CREATE FUNCTION plrust.one()
+CREATE FUNCTION plrust.one()
     RETURNS INT LANGUAGE plrust
 AS
 $$
@@ -88,13 +92,12 @@ testdb=# SELECT plrust.one();
 Other example (based on <https://plrust.io/use-plrust.html#calculations>)
 
 ```console
-testdb=# CREATE OR REPLACE FUNCTION plrust.fah_to_cel(fah FLOAT)
+CREATE OR REPLACE FUNCTION plrust.fah_to_cel(fah FLOAT)
     RETURNS FLOAT
     LANGUAGE plrust STRICT
 AS $$
     Ok(Some((fah - 32.0) / 1.8))
 $$;
-CREATE FUNCTION
 ```
 
 ```console
