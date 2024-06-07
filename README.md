@@ -107,3 +107,44 @@ testdb=# SELECT plrust.fah_to_cel(100);
  37.77777777777778
 (1 row)
 ```
+
+update: Added trustify dump, replace init.sql with whatever db script.
+
+```console
+testdb=# \c testdb
+You are now connected to database "testdb" as user "postgres".
+testdb=# \dt
+                     List of relations
+ Schema |              Name              | Type  |  Owner
+--------+--------------------------------+-------+----------
+ public | advisory                       | table | postgres
+ public | advisory_vulnerability         | table | postgres
+ public | affected_package_version_range | table | postgres
+ public | cpe                            | table | postgres
+ public | cvss3                          | table | postgres
+ public | cvss4                          | table | postgres
+ public | fixed_package_version          | table | postgres
+ public | importer                       | table | postgres
+ public | importer_report                | table | postgres
+ public | not_affected_package_version   | table | postgres
+ public | organization                   | table | postgres
+ public | package                        | table | postgres
+ public | package_relates_to_package     | table | postgres
+ public | package_version                | table | postgres
+ public | package_version_range          | table | postgres
+ public | product                        | table | postgres
+ public | product_version                | table | postgres
+ public | qualified_package              | table | postgres
+ public | relationship                   | table | postgres
+ public | sbom                           | table | postgres
+ public | sbom_node                      | table | postgres
+ public | sbom_package                   | table | postgres
+ public | sbom_package_cpe_ref           | table | postgres
+ public | sbom_package_purl_ref          | table | postgres
+ public | seaql_migrations               | table | postgres
+ public | vulnerability                  | table | postgres
+ public | vulnerability_description      | table | postgres
+(27 rows)
+
+testdb=#
+```

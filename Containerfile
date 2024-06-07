@@ -12,7 +12,9 @@ RUN apt update && \
 
 # updates postgresql.conf
 COPY init.sh /docker-entrypoint-initdb.d/
-RUN chmod +x /docker-entrypoint-initdb.d/init.sh
+COPY init.sql /docker-entrypoint-initdb.d/
+RUN chmod +x /docker-entrypoint-initdb.d/init.sh && \
+    chown -R postgres:postgres /docker-entrypoint-initdb.d/init.sql
 
 # required to change the user to posgres when installing rust and other things
 USER postgres
