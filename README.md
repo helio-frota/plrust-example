@@ -64,97 +64,48 @@ testdb=# \dx
 (2 rows)
 ```
 
-### Basic example
+### Basic examples
 
-from <https://plrust.io/use-plrust.html#basic-plrust-example>
+* First example from <https://plrust.io/use-plrust.html#basic-plrust-example>
+* The first function takes a lot of time to compile
 
 ```shell
 postgres@6720afb28218:~$ psql -U postgres -d testdb
 ```
 
 ```console
-CREATE FUNCTION plrust.one()
+testdb=# \timing
+Timing is on.
+testdb=# CREATE FUNCTION plrust.one()
     RETURNS INT LANGUAGE plrust
 AS
 $$
     Ok(Some(1))
 $$;
-```
-
-```console
+CREATE FUNCTION
+Time: 216078.515 ms (03:36.079)
 testdb=# SELECT plrust.one();
  one
 -----
    1
 (1 row)
-```
 
-Other example (based on <https://plrust.io/use-plrust.html#calculations>)
-
-```console
-CREATE OR REPLACE FUNCTION plrust.fah_to_cel(fah FLOAT)
+Time: 64.070 ms
+testdb=# CREATE OR REPLACE FUNCTION plrust.fah_to_cel(fah FLOAT)
     RETURNS FLOAT
     LANGUAGE plrust STRICT
 AS $$
     Ok(Some((fah - 32.0) / 1.8))
 $$;
-```
-
-```console
+CREATE FUNCTION
+Time: 3494.480 ms (00:03.494)
 testdb=# SELECT plrust.fah_to_cel(100);
     fah_to_cel
 -------------------
  37.77777777777778
 (1 row)
-```
 
-#### Added trustify dump, replace init.sql with whatever db script
-
-```console
-testdb=# \c testdb
-You are now connected to database "testdb" as user "postgres".
-testdb=# \dt
-                     List of relations
- Schema |              Name              | Type  |  Owner
---------+--------------------------------+-------+----------
- public | advisory                       | table | postgres
- public | advisory_vulnerability         | table | postgres
- public | affected_package_version_range | table | postgres
- public | cpe                            | table | postgres
- public | cvss3                          | table | postgres
- public | cvss4                          | table | postgres
- public | fixed_package_version          | table | postgres
- public | importer                       | table | postgres
- public | importer_report                | table | postgres
- public | not_affected_package_version   | table | postgres
- public | organization                   | table | postgres
- public | package                        | table | postgres
- public | package_relates_to_package     | table | postgres
- public | package_version                | table | postgres
- public | package_version_range          | table | postgres
- public | product                        | table | postgres
- public | product_version                | table | postgres
- public | qualified_package              | table | postgres
- public | relationship                   | table | postgres
- public | sbom                           | table | postgres
- public | sbom_node                      | table | postgres
- public | sbom_package                   | table | postgres
- public | sbom_package_cpe_ref           | table | postgres
- public | sbom_package_purl_ref          | table | postgres
- public | seaql_migrations               | table | postgres
- public | vulnerability                  | table | postgres
- public | vulnerability_description      | table | postgres
-(27 rows)
-
-testdb=#
-```
-
-##### Select on existing table
-
-> [!NOTE]
-> Example based on plrust unit tests
-
-```console
+Time: 24.028 ms
 testdb=# CREATE FUNCTION random_importer() RETURNS TEXT
     STRICT
     LANGUAGE PLRUST AS
@@ -162,27 +113,27 @@ $$
     Ok(Spi::get_one("SELECT name FROM importer ORDER BY random() LIMIT 1")?)
 $$;
 CREATE FUNCTION
-testdb=#
-```
-
-```console
+Time: 2386.288 ms (00:02.386)
 testdb=# select random_importer();
  random_importer
 -----------------
  osv-oss-fuzz
 (1 row)
 
+Time: 39.236 ms
 testdb=# select random_importer();
  random_importer
 -----------------
- cve
+ redhat-csaf
 (1 row)
 
+Time: 0.865 ms
 testdb=# select random_importer();
  random_importer
 -----------------
- osv-r
+ osv-pypa
 (1 row)
 
+Time: 0.724 ms
 testdb=#
 ```
