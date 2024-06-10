@@ -2,12 +2,12 @@
 
 ## General notes
 
-* We are using PG16 [here](https://github.com/trustification/trustify/blob/main/etc/deploy/compose/compose.yaml#L3) and [here](https://github.com/trustification/trustify/blob/main/Cargo.toml#L73) :heavy_check_mark:
-* We need to build this with rust 1.72.0 (we are using 1.77.2 and 1.78.0) :heavy_minus_sign:
+* We are using PG16 [here](https://github.com/trustification/trustify/blob/main/etc/deploy/compose/compose.yaml#L3) and [here](https://github.com/trustification/trustify/blob/main/Cargo.toml#L73)
+* We need to build this with rust 1.72.0 (we are using 1.77.2 and 1.78.0)
   * Because cargo `pgrx` is conflicting with `plrust` (I don't remember the build error)
-* It works :heavy_plus_sign:
+* It works
   * Some basic functions fails to compile not sure why
-* Not sure how much it can be reduced: :heavy_minus_sign:
+* Not sure how much it can be reduced:
 
 ```shell
 ➜  plrust-example git:(main) ✗ podman image list
@@ -108,7 +108,7 @@ testdb=# SELECT plrust.fah_to_cel(100);
 (1 row)
 ```
 
-update: Added trustify dump, replace init.sql with whatever db script.
+#### Added trustify dump, replace init.sql with whatever db script
 
 ```console
 testdb=# \c testdb
@@ -145,6 +145,44 @@ testdb=# \dt
  public | vulnerability                  | table | postgres
  public | vulnerability_description      | table | postgres
 (27 rows)
+
+testdb=#
+```
+
+##### Select on existing table
+
+> [!NOTE]
+> Example based on plrust unit tests
+
+```console
+testdb=# CREATE FUNCTION random_importer() RETURNS TEXT
+    STRICT
+    LANGUAGE PLRUST AS
+$$
+    Ok(Spi::get_one("SELECT name FROM importer ORDER BY random() LIMIT 1")?)
+$$;
+CREATE FUNCTION
+testdb=#
+```
+
+```console
+testdb=# select random_importer();
+ random_importer
+-----------------
+ osv-oss-fuzz
+(1 row)
+
+testdb=# select random_importer();
+ random_importer
+-----------------
+ cve
+(1 row)
+
+testdb=# select random_importer();
+ random_importer
+-----------------
+ osv-r
+(1 row)
 
 testdb=#
 ```
