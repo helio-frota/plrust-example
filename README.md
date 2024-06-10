@@ -5,8 +5,6 @@
 * We are using PG16 [here](https://github.com/trustification/trustify/blob/main/etc/deploy/compose/compose.yaml#L3) and [here](https://github.com/trustification/trustify/blob/main/Cargo.toml#L73)
 * We need to build this with rust 1.72.0 (we are using 1.77.2 and 1.78.0)
   * Because cargo `pgrx` is conflicting with `plrust` (I don't remember the build error)
-* It works
-  * Some basic functions fails to compile not sure why
 * Not sure how much it can be reduced:
 
 ```shell
